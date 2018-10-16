@@ -1,24 +1,9 @@
 class CanalYoutube {
 
-    static getVideos(){
+    static getVideos(jsonGeral){
         var listaVideos = [];
-        var primeiroVideo = new Video("imagem1", "link1");
-        var segundoVideo = new Video("imagem2", "link2");
-        listaVideos.push(primeiroVideo);
-        listaVideos.push(segundoVideo);
-
+        CanalYoutube.getIdVideosFromAPI(jsonGeral, listaVideos);
         return listaVideos;
-    }
-
-    static getIdVideosFromAPI(apiUrl){
-        var listaVideosId = [];
-        $.getJSON(apiUrl, function(resultado){
-            resultado.items.forEach(function(video){
-                listaVideosId.push(video.id.videoId);
-            });
-        });
-
-        return listaVideosId;
     }
 
     static getImageVideoFromAPI(videoId, apiUrl, video){
@@ -30,12 +15,26 @@ class CanalYoutube {
         });
         return videoImagem;
     }
+
+    static getIdVideosFromAPI(apiUrl, listaVideos){
+        var linkYoutube = "https://www.youtube.com/watch?v=";
+        var jsonVideo = "https://api.myjson.com/bins/1e4f6v";
+        var listaVideosId = [];
+        $.getJSON(apiUrl, function(resultado){
+            resultado.items.forEach(function(video){
+                listaVideosId.push(video.id.videoId);
+                var newvideo = new Video("", linkYoutube + video.id.videoId);
+                CanalYoutube.getImageVideoFromAPI(video.id.videoId, jsonVideo, newvideo)
+                listaVideos.push(newvideo);
+            });
+        });
+
+        return listaVideosId;
+    }
 }
 
 var jsonGeral = "https://api.myjson.com/bins/ec9qf";
 var jsonVideo = "https://api.myjson.com/bins/1e4f6v";
 
-var listaVideos = CanalYoutube.getVideos();
-var listaIdVideos = CanalYoutube.getIdVideosFromAPI(jsonGeral);
-var video = new Video("Teste", "Teste");
-var imagem = CanalYoutube.getImageVideoFromAPI("teste", jsonVideo, video);
+var listaVideos = CanalYoutube.getVideos(jsonGeral);
+console.log(listaVideos);
