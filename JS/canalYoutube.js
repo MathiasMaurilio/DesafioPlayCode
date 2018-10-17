@@ -1,11 +1,11 @@
 class CanalYoutube {
-
     static getVideos(jsonGeral){
         var listaVideos = [];
         listaVideos.length = 100;
         for (var i = 0; i < listaVideos.length; i++) {
             listaVideos[i] = new Video("https://placeholdit.imgix.net/~text?txtsize=33&txt=&w=320&h=180", "#");
         }
+
         CanalYoutube.getIdVideosFromAPI(jsonGeral, listaVideos);
         return listaVideos;
     }
@@ -39,10 +39,12 @@ class CanalYoutube {
                 listaVideosId.push(video.id.videoId);
                 var newvideo = new Video("", linkYoutube + video.id.videoId, "");
                 CanalYoutube.getImageVideoFromAPI(video.id.videoId, jsonVideo, newvideo)
+                var qtdVideosInicializados = 0;
                 for (var i = listaVideos.length-1; i >= 0 ; i--) {
                     if(listaVideos[i].link == "#" && !CanalYoutube.verificarSeExisteNaLista(listaVideos, newvideo)) {
                         newvideo.td = tds.children[i];
                         listaVideos[i] = newvideo;
+                        contadorDeVideos(i);
                         break;
                     }
                 }
@@ -57,6 +59,14 @@ function criarVideos(listaVideos){
     for (var i = 0; i < listaVideos.length; i++) {
         criarTd(listaVideos[i]);
     }
+}
+
+function contadorDeVideos(numerDoVideo){
+    var videosFaltando = parseInt($("#quantidade-faltando").text());
+    if(videosFaltando > numerDoVideo){
+        $("#quantidade-faltando").text(numerDoVideo);
+    }
+
 }
 
 function criarTd(video){
