@@ -33,7 +33,7 @@ class CanalYoutube {
         var linkYoutube = "https://www.youtube.com/watch?v=";
         var jsonVideo = "https://api.myjson.com/bins/1e4f6v";
         var listaVideosId = [];
-        var tds = document.querySelector(".video-coluna");
+        var tr = document.querySelector(".video-coluna");
         $.getJSON(apiUrl, function(resultado){
             resultado.items.forEach(function(video){
                 listaVideosId.push(video.id.videoId);
@@ -42,7 +42,7 @@ class CanalYoutube {
                 var qtdVideosInicializados = 0;
                 for (var i = listaVideos.length-1; i >= 0 ; i--) {
                     if(listaVideos[i].link == "#" && !CanalYoutube.verificarSeExisteNaLista(listaVideos, newvideo)) {
-                        newvideo.td = tds.children[i];
+                        newvideo.td = tr.children[i];
                         listaVideos[i] = newvideo;
                         contadorDeVideos(i);
                         break;
