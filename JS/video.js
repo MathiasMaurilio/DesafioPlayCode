@@ -5,8 +5,8 @@ class Video {
         this.td = td;
     }
 
-    setar_td(){
-        this.td.children[0].href = this.link;
-        this.td.children[0].children[0].src = this.image;
+    setar_td() {
+        this.td.firstChild.href = this.link;
+        this.td.firstChild.firstChild.src = this.image;
     }
 }
